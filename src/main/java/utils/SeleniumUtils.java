@@ -1,6 +1,7 @@
 package utils;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -10,6 +11,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SeleniumUtils {
 
@@ -31,10 +34,29 @@ public class SeleniumUtils {
         }
     }
 
+    public static void waitForSpecificTime() throws InterruptedException {
+        Thread.sleep(30000);
+    }
+    public static List<WebElement> waitAndFindElements(WebDriver driver, By locator, int timeoutInSeconds) {
+        try {
+            logger.info("Waiting for elements located by: {}", locator);
+            new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds))
+                    .until(ExpectedConditions.elementToBeClickable(locator));
+            new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds))
+                    .until(ExpectedConditions.presenceOfElementLocated(locator));
+            new WebDriverWait(driver, Duration.ofSeconds(timeoutInSeconds))
+                    .until(ExpectedConditions.not(ExpectedConditions.stalenessOf(driver.findElement(locator))));
+            return driver.findElements(locator);
+        } catch (Exception e) {
+            logger.error("Failed to locate elements: {}. Error: {}", locator, e.getMessage());
+            throw new RuntimeException("Elements not found: " + locator, e);
+        }
+    }
+
     public static void clickElement(WebDriver driver, By locator) {
         try {
             logger.info("Clicking element located by: {}", locator);
-            WebElement element = waitAndFindElement(driver, locator, 20);
+            WebElement element = waitAndFindElement(driver, locator, 50);
             element.click();
         } catch (Exception e) {
             logger.error("Failed to click element: {}. Error: {}", locator, e.getMessage());
@@ -63,4 +85,23 @@ public class SeleniumUtils {
             throw new RuntimeException("Scrolling failed for element located by: " + locator, e);
         }
     }
+
+    public static void scrollToTopWithKeys(WebDriver driver) {
+        Actions actions = new Actions(driver);
+        actions.sendKeys(Keys.HOME).perform();
+    }
+
+    public static void openInNewTab(WebDriver driver, WebElement element) {
+        Actions action = new Actions(driver);
+        action.keyDown(Keys.CONTROL).click(element).keyUp(Keys.CONTROL).build().perform();    }
+
+    public static void switchToNewTab(WebDriver driver) {
+        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(tabs.size() - 1));
+    }
+
+    public static void switchToMainTab(WebDriver driver) {
+        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+        driver.switchTo().window(tabs.get(0));
+}
 }
