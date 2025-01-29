@@ -35,3 +35,8 @@ mvn test -DsuiteXmlFile= path to your testng.xml
 ```
 
 Also note that you will only be able to run when you set password while logging into Amazon in your environment variables.
+
+### Further Enhancements
+
+* [thread.sleep needs to be removed as it is used with 3 elements](https://www.selenium.dev/)
+* [the test ignores the decimal part of the total price](https://rest-assured.io/)
