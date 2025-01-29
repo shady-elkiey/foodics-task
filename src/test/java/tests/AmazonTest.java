@@ -43,7 +43,6 @@ public class AmazonTest extends BaseTest {
     public void amazonAutomation() {
         logger.info("Navigating to Amazon: {}", baseUrl);
 
-     //   try {
             //Step 1: Login
             logger.info("Logging into Amazon.");
             amazonPage.loginToAmazon();
@@ -76,19 +75,5 @@ public class AmazonTest extends BaseTest {
             logger.info("Adding products below 15k EGP to the cart.");
             Assert.assertTrue(amazonPage.checkThatCartCountAndPriceIsMatchingTheTotalOrder(), "cart count and total price is not as expected");
             amazonPage.deleteItemsFoundInTheCart();
-            //int[] x = amazonPage.extractPricesInReverseOrder();
-            //int[] y = amazonPage.extractPricesInReverseOrder();
-
-            // Add logic to handle product addition here.
-
-            // Step 7: Verify all products are in the cart
-//            logger.info("Verifying products in the cart.");
-//            SeleniumUtils.clickElement(driver, By.id("nav-cart"));
-
         }
-//        catch (Exception e) {
-//            logger.error("An error occurred during the test: {}", e.getMessage());
-//            throw new RuntimeException("Test failed: " + e.getMessage(), e);
-//        }
-   // }
 }
