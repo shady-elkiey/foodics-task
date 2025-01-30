@@ -232,11 +232,6 @@ public class AmazonPage {
         return driver.findElement(locator).isDisplayed();
     }
 
-    public boolean isCashCheckBoxAvailable(By cashOnDeliveryAvailablityMessage) {
-            WebElement checkbox = SeleniumUtils.waitAndFindElement(driver, cashOnDeliveryAvailablityMessage, 30);
-            return !checkbox.getText().contains("Cash on delivery is not available for this order");
-        }
-
     public static int[] mergeAndSortAscending(int[] arr1, int[] arr2) {
         int[] mergedArray = new int[arr1.length + arr2.length];
         System.arraycopy(arr1, 0, mergedArray, 0, arr1.length);
