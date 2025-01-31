@@ -188,7 +188,7 @@ public class AmazonPage {
     }
 
     public int checkThatCountAndPriceOfProductsAreNotEqualZeroAndReturnTheOrderSumCart()  {
-        try {
+
             this.cartCountAndTotalPrice = clickOnProductsThatTheirSumAreLessThan15KOfTheCurrentScreen();
             while (this.cartCountAndTotalPrice.values().stream().anyMatch(value -> value == 0)){
                 this.cartCountAndTotalPrice = clickOnProductsThatTheirSumAreLessThan15KOfTheCurrentScreen();
@@ -202,23 +202,16 @@ public class AmazonPage {
             int total = getOrderTotal();
             int handlingAndShipping = getShippingAndHandlingValue();
             return total - handlingAndShipping;
-        }catch (Exception e){
-            throw new RuntimeException("failed while extracting the total price ");
-        }
     }
 
     public boolean checkThatCartCountAndPriceIsMatchingTheTotalOrder(){
-        try {
+
             int totalOrder = checkThatCountAndPriceOfProductsAreNotEqualZeroAndReturnTheOrderSumCart();
             SeleniumUtils.scrollToTopWithKeys(driver);
             SeleniumUtils.waitForSpecificTime();
             SeleniumUtils.clickElement(driver, cartButton);
             int cartCount = getCartCount();
             return this.cartCountAndTotalPrice.containsKey(cartCount) && this.cartCountAndTotalPrice.get(cartCount) == totalOrder;
-        }catch (Exception e){
-            throw new RuntimeException("failed while comparing the total price with the cart count ");
-        }
-
     }
 
     public void deleteItemsFoundInTheCart(){
@@ -232,7 +225,7 @@ public class AmazonPage {
         return driver.findElement(locator).isDisplayed();
     }
 
-    public static int[] mergeAndSortAscending(int[] arr1, int[] arr2) {
+    public int[] mergeAndSortAscending(int[] arr1, int[] arr2) {
         int[] mergedArray = new int[arr1.length + arr2.length];
         System.arraycopy(arr1, 0, mergedArray, 0, arr1.length);
         System.arraycopy(arr2, 0, mergedArray, arr1.length, arr2.length);

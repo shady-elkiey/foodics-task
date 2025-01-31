@@ -34,8 +34,14 @@ public class SeleniumUtils {
         }
     }
 
-    public static void waitForSpecificTime() throws InterruptedException {
-        Thread.sleep(30000);
+    public static void waitForSpecificTime() {
+        try {
+            Thread.sleep(30000);}
+        catch (Exception e){
+            logger.error(e.getMessage());
+            throw new RuntimeException(e);
+        }
+
     }
     public static List<WebElement> waitAndFindElements(WebDriver driver, By locator, int timeoutInSeconds) {
         try {
@@ -87,21 +93,45 @@ public class SeleniumUtils {
     }
 
     public static void scrollToTopWithKeys(WebDriver driver) {
-        Actions actions = new Actions(driver);
-        actions.sendKeys(Keys.HOME).perform();
+        try {
+            Actions actions = new Actions(driver);
+            actions.sendKeys(Keys.HOME).perform();
+        }catch (Exception e){
+            logger.error("Failed to scroll to the top of the page{}", e.getMessage());
+            throw new RuntimeException("Scrolling to the top of the page failed: ", e);
+        }
+
     }
 
     public static void openInNewTab(WebDriver driver, WebElement element) {
-        Actions action = new Actions(driver);
-        action.keyDown(Keys.CONTROL).click(element).keyUp(Keys.CONTROL).build().perform();    }
+        try {
+            Actions action = new Actions(driver);
+            action.keyDown(Keys.CONTROL).click(element).keyUp(Keys.CONTROL).build().perform();
+        }catch (Exception e){
+            logger.error("Failed to open a new tab with a specific element: {}. Error: {}", element, e.getMessage());
+            throw new RuntimeException("Failed to open a new tab: ", e);
+        }
+            }
 
     public static void switchToNewTab(WebDriver driver) {
-        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-        driver.switchTo().window(tabs.get(tabs.size() - 1));
+        try {
+            ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+            driver.switchTo().window(tabs.get(tabs.size() - 1));
+        }catch (Exception e){
+            logger.error("Failed to switch to a new tab{} ", e.getMessage());
+            throw new RuntimeException("Switching to a new tab failed: ", e);
+        }
+
     }
 
     public static void switchToMainTab(WebDriver driver) {
-        ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-        driver.switchTo().window(tabs.get(0));
+        try {
+            ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+            driver.switchTo().window(tabs.get(0));
+        }catch (Exception e){
+            logger.error("Failed to switch to the main tab{} ", e.getMessage());
+            throw new RuntimeException("Switching to the main tab failed: ", e);
+        }
+
 }
 }
