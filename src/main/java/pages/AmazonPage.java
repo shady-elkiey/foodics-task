@@ -153,8 +153,7 @@ public class AmazonPage {
             for (int i = 0; i < productsArrSize; i++) {
                 sum = sum + prdoctsArr[i];
                 if (sum > 15000) {
-                    this.cartCountAndTotalPrice.put(i, sum - prdoctsArr[i]);
-                    return this.cartCountAndTotalPrice;
+                        return this.cartCountAndTotalPrice;
                 }
                 else {
                     int elementIndex = productsArrSize - 1 - i;
@@ -166,6 +165,7 @@ public class AmazonPage {
                     }else if(checkIfSeeAllBuyingOptionsIsDisplayed()) {
                         seeAllBuyingOptionsFlow();}
                     SeleniumUtils.switchToMainTab(driver);
+                    this.cartCountAndTotalPrice.put(i+1,sum);
                 }
             }
             return this.cartCountAndTotalPrice;
