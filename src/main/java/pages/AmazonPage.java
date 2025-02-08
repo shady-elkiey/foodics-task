@@ -145,7 +145,7 @@ public class AmazonPage {
         int sum = 0;
         this.cartCountAndTotalPrice = new HashMap<>(); // Map to store product count and total price
 
-        if(prdoctsArr[0]>15000.0){
+        if(prdoctsArr[0]>15000){
             SeleniumUtils.clickElement(driver, nextButton);
             return this.cartCountAndTotalPrice;
         }
